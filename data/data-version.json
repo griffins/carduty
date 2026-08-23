@@ -1,0 +1,5 @@
+{
+  "_comment": "Drives <lastmod> in all sitemaps. Regenerate with: npm run data:version",
+  "lastmod": "2026-02-25",
+  "sha256": "53a53e73fbfcfa5fddbbef14823037c51b31c30583b02072d2641cf2f04f8b56"
+}

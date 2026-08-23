@@ -1,13 +1,14 @@
 {
   "name": "dutycheck",
   "version": "1.0.0",
-  "description": "> The only Kenya car duty calculator that shows you exactly how KRA calculates your duty — step by step, verified against the official KRA valuation template.",
+  "description": "> The only Kenya car duty calculator that shows you exactly how KRA calculates your duty \u2014 step by step, verified against the official KRA valuation template.",
   "main": "index.js",
   "scripts": {
     "dev": "npm run build:css && vite",
     "build": "npm run build:css && vite build && node scripts/generate_pages.js",
     "build:css": "tailwindcss -i src/style.css -o public/css/styles.css --minify",
-    "data": "python3 scripts/crsp_to_json.py && python3 scripts/build_crsp_cascade.py"
+    "data": "python3 scripts/crsp_to_json.py && python3 scripts/build_crsp_cascade.py && npm run data:version",
+    "data:version": "node scripts/write_data_version.js"
   },
   "repository": {
     "type": "git",
