@@ -36,6 +36,14 @@
 - [x] og:image / twitter:image — branded 1200x630 card (public/og-image.png, source scripts/og-card.svg); summary_large_image on homepage + generated pages
 - [x] Product/Vehicle schema on model/year pages — vehicleJsonLd() (schema.org Car) wired into model, year & compare pages with brand, CRSP offer & duty PropertyValue
 
+### Hosting cost (Vercel)
+- [x] Cache headers — was `max-age=0, must-revalidate` on everything (Vercel static default), so browsers cached nothing and every navigation re-fetched turbo.min.js (217KB) + crsp_cascade.json (476KB). Now tiered in vercel.json: hashed /assets immutable 1y, /css /vendor images 30d, /data 7d, HTML 14d, sitemaps 1d.
+- [x] Sitemap `<lastmod>` was the build date on all 77k URLs → told search engines the whole site changed on every deploy → full recrawl each time. Now read from data/data-version.json, verified against the CRSP SHA-256 (git does not preserve mtimes, so a fresh Vercel clone would reset them to build time). `npm run data` chains `data:version`; build warns and fails safe if the data changes without it.
+- [x] robots.txt — 21 AI/SEO scrapers disallowed; Crawl-delay 10 for bingbot + Yandex. Googlebot, Bingbot and social preview bots (facebookexternalhit, WhatsApp) untouched.
+- [ ] **Confirm the saving.** Needs `npx vercel login`, then read Observability → Edge Requests grouped by User Agent. Compare against GA4 (G-VT7S4F6QJG) sessions: the gap between GA4 users and Vercel edge requests IS the bot traffic. Baseline was taken before the 2026-08-23 deploy.
+- [ ] Watch Search Console crawl stats for a drop over the next 2-4 weeks (lastmod change is the main lever; Googlebot ignores Crawl-delay).
+- Decision: compare pages (20,012 pages, 4.5MB sitemap-compare.xml, linked 5x from every model/year page) reviewed and **deliberately kept** — do not drop without Search Console data.
+
 ## Notes
 
 ### Architecture
